@@ -78,7 +78,7 @@ begin: Lvls
     begin: Elems
 
 		// for the first level connect inputs to the module
-		c_elem_2_input c
+		C2 c_inst
 		(
 			.rst(rst),
 			.in(in_int[elem * ELEM_W +: ELEM_W]),
