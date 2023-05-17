@@ -31,20 +31,21 @@ endgenerate
 
 
 wire out;
+
 reg [1:0] in = 0;
 reg rst = 1;
 
 LUT4 #
 (
-    .INIT(16'h00E8)
+  .INIT(4'h00e8)
 )
-LUT4_inst
+TP_2_0_2_inst
 (
-    .O  (out),
-    .I0 (in[0]),
-    .I1 (in[1]),
-    .I2 (out),
-    .I3 (rst)
+  .O  (out),
+  .I0 (in[0]),
+  .I1 (in[1]),
+  .I2 (out),
+  .I3 (rst)
 );
 
 
