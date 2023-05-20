@@ -19,9 +19,7 @@ reg rst_tb;
 
 TH_XY#
 (
-	.ENC("TWO_PHASE"),
-	.IN_NUM(2),
-	.THRESHOLD(2)
+  .CFG  ("TP_2_0_2")
 )
 DUT
 (

@@ -4,10 +4,10 @@ def input_sum(x):
 
 ENC = "FOUR_PHASE"
 
-NUM_INPUTS = 2
+NUM_INPUTS = 4
 # Start from idx 0
-DOUBLE_INPUTS = 0
-THRESHOLD = 2
+DOUBLE_INPUTS = 2
+THRESHOLD = 3
 
 
 NUM_INPUTS_TOTAL = NUM_INPUTS + DOUBLE_INPUTS
@@ -20,8 +20,9 @@ if not FB_NEEDED:
         for loc in range(2**NUM_INPUTS):
             init |= (input_sum(loc) >= THRESHOLD) << loc
 
-        format_str = str((2**NUM_INPUTS) // 4) + "'h{:0" + str((2**NUM_INPUTS) // 4) + "x}"
+        format_str = str((2**NUM_INPUTS)) + "'h{:0" + str((2**NUM_INPUTS) // 4) + "x}"
         print("".join(format_str.format(init)))
+        print(NUM_INPUTS)
         quit()
 
         
@@ -47,7 +48,8 @@ else:
 
 init = init_fb_is_0 | (init_fb_is_1 << (2**NUM_INPUTS))
 # div by 4 -> 4 bits per hex, mul by 4 -> 2**2 (feedback and reset)
-format_str = str(2**NUM_INPUTS) + "'h{:0" + str(2**NUM_INPUTS) + "x}"
+format_str = str(2**NUM_INPUTS * 4) + "'h{:0" + str(2**NUM_INPUTS) + "x}"
 
 print("".join(format_str.format(init)))
+print(NUM_INPUTS + 2)
 

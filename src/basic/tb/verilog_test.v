@@ -32,20 +32,18 @@ endgenerate
 
 wire out;
 
-reg [1:0] in = 0;
+reg [3:0] in = 0;
 reg rst = 1;
 
-LUT4 #
+TH_XY #
 (
-  .INIT(4'h00e8)
+  .CFG  ("FP_2_0_2")
 )
-TP_2_0_2_inst
+TH_XY_inst
 (
-  .O  (out),
-  .I0 (in[0]),
-  .I1 (in[1]),
-  .I2 (out),
-  .I3 (rst)
+  .rst  (rst),
+  .in   (in),
+  .out  (out)
 );
 
 
