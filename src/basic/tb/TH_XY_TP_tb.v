@@ -19,7 +19,8 @@ reg rst_tb;
 
 TH_XY#
 (
-  .CFG  ("TP_2_0_2")
+  .ENC  ("TP"),
+  .CFG  ("2_0_2")
 )
 DUT
 (

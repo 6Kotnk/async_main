@@ -37,7 +37,8 @@ reg rst = 1;
 
 TH_XY #
 (
-  .CFG  ("FP_2_0_2")
+  .ENC  ("FP"),
+  .CFG  ("2_0_2")
 )
 TH_XY_inst
 (

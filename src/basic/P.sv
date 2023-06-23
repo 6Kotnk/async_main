@@ -3,13 +3,13 @@
 module P
 (
 //---------CTRL-----------------------
-	input							rst,
+  input              rst,
 //---------IN-------------------------
-	input							en,
-	input							fb,
-	input							in,
+  input              en,
+  input              fb,
+  input              in,
 //---------OUT------------------------
-	output							out
+  output              out
 //------------------------------------
 );
 
@@ -19,17 +19,17 @@ assign out = state_r ^ in;
 
 always@(*)
 begin
-	if(rst)
-	begin
-		state_r = 0;
-	end
-	else
-	begin
-		if(en)
-		begin
-			state_r = in ^ fb;
-		end
-	end
+  if(rst)
+  begin
+    state_r = 0;
+  end
+  else
+  begin
+    if(en)
+    begin
+      state_r = in ^ fb;
+    end
+  end
 end
 
 
