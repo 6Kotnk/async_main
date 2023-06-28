@@ -1,9 +1,8 @@
 `timescale 1ns / 1ps
 
-import link_pkg::*;
-
 module MEM_CELL#(
   parameter                     ENC = "TP"
+  
 )
 (
 //---------CTRL-----------------------

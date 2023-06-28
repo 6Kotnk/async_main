@@ -2,11 +2,11 @@ def input_sum(x):
     return bin(x).count("1") + bin(x)[:DOUBLE_INPUTS].count("1")
 
 
-ENC = "FOUR_PHASE"
+ENC = "TWO_PHASE"
 
 NUM_INPUTS = 4
 # Start from idx 0
-DOUBLE_INPUTS = 2
+DOUBLE_INPUTS = 1
 THRESHOLD = 3
 
 

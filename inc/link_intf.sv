@@ -1,3 +1,5 @@
+import link_pkg::*;
+
 interface link_intf #(
   parameter            LINK_WIDTH = 1,
   parameter            RAIL_NUM   = 2

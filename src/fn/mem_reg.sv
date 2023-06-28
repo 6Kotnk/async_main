@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
-
 module mem_reg#(
-  parameter            REG_WIDTH = 2
+  parameter            REG_WIDTH = 2,
+  parameter            ENC = "TP"
 )
 (
 //---------CTRL-----------------------
@@ -14,63 +14,18 @@ module mem_reg#(
 //------------------------------------
 );
 
-
-/*
-wire [REG_WIDTH-1:0] ack_bit;
-wire ack_link;
-wire lat_en;
-
-assign lat_en = ack_link ^ ack_i;
-assign ack_o = ack_link;
+link_intf [REG_WIDTH-1 : 0] cell_in_link;
+link_intf [REG_WIDTH-1 : 0] cell_out_link;
 
 genvar bit_idx;
 
 generate
   for (bit_idx = 0; bit_idx < REG_WIDTH ; bit_idx = bit_idx + 1)
   begin 
-  
-    el_latch#
-    (
-      .RAIL_NUM(RAIL_NUM)
-    )
-    latch
-    (
-      .rst(rst),
-      
-      .in(),
-      .out()
-    );
-    
-  end
-endgenerate 
-*/
-/*
-link_intf [REG_WIDTH-1 : 0] int_link;
 
-MEM_CELL#
-(
-  .ENC(ENC)
-)
-mem_cell_reg [REG_WIDTH-1 : 0]
-(
-  .rst(rst),
-  
-  .in(in),
-  .out(link_intf)
-);
-
-assign out.data = int_link.data
-*/
-
-
-
-link_intf [REG_WIDTH-1 : 0] int_link;
-
-genvar bit_idx;
-
-generate
-  for (bit_idx = 0; bit_idx < REG_WIDTH ; bit_idx = bit_idx + 1)
-  begin 
+    assign cell_in_link[bit_idx].data[0] = in.data[bit_idx];
+    assign cell_out_link[bit_idx].ack = in.ack ^ out.ack;
+    assign out.data[bit_idx] = cell_out_link[bit_idx].data[0];
 
     MEM_CELL#
     (
@@ -80,8 +35,8 @@ generate
     (
       .rst(rst),
       
-      .in(in),
-      .out(link_intf)
+      .in(cell_in_link[bit_idx]),
+      .out(cell_out_link[bit_idx])
     );
   end
 endgenerate 
@@ -95,8 +50,8 @@ c_collector
 (
   .rst(rst),
   
-  .in(int_link.ack),
-  .out(out.ack)
+  .in(cell_out_link.ack),
+  .out(in.ack)
 );
 
 

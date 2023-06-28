@@ -61,8 +61,8 @@ begin
       .O  (out),
       .I0 (in[0]),
       .I1 (in[1]),
-      .I2 (out),
-      .I3 (rst)
+      .I2 (in[2]),
+      .I3 (in[3])
     );
   end  
 
