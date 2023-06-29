@@ -16,13 +16,22 @@ module TH_XY#(
 //------------------------------------
 );
 
+localparam IN_NUM_ACTUAL = CFG[39:32] - 48;
+
 wire [IN_NUM-1:0] in_p;
 
+
 generate
+
+  if(IN_NUM > IN_NUM_ACTUAL)
+  begin
+    assign in_p[IN_NUM-1:IN_NUM_ACTUAL] = 0;
+  end
+
   if (ENC == "TP")
   begin
     genvar idx;
-    for (idx = 0; idx < IN_NUM; idx = idx + 1) 
+    for (idx = 0; idx < IN_NUM_ACTUAL; idx = idx + 1) 
     begin
       P p
       (

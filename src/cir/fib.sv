@@ -17,7 +17,18 @@ module fib#(
 );
 
 
+/*
 
+vector of injectors
+
+adder
+
+mem_reg
+
+mem_reg
+
+
+*/
 
 
 endmodule

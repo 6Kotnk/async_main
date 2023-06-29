@@ -54,7 +54,7 @@ begin
   begin
     LUT4 #
     (
-      .INIT(16'he880)
+      .INIT(16'heaa8)
     )
     TP_4_1_3_inst
     (
@@ -70,7 +70,7 @@ begin
   begin
   LUT6 #
   (
-    .INIT(64'h000000008000e880)
+    .INIT(64'h00000000e888eee8)
   )
   TP_4_2_3_inst
   (
@@ -123,7 +123,7 @@ begin
   begin
     LUT6 #
     (
-      .INIT(64'h00000000fffee880)
+      .INIT(64'h00000000fffeeaa8)
     )
     FP_4_1_3_inst
     (
@@ -141,7 +141,7 @@ begin
   begin
   LUT6 #
   (
-    .INIT(64'h000000008000e880)
+    .INIT(64'h00000000fffeeee8)
   )
   FP_4_2_3_inst
   (

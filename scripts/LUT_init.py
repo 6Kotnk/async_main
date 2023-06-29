@@ -1,8 +1,8 @@
 def input_sum(x):
-    return bin(x).count("1") + bin(x)[:DOUBLE_INPUTS].count("1")
+    return bin(x).count("1") + bin(x)[-DOUBLE_INPUTS:].count("1")
 
 
-ENC = "TWO_PHASE"
+ENC = "FOUR_PHASE"
 
 NUM_INPUTS = 4
 # Start from idx 0

@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
 module mem_reg#(
-  parameter            REG_WIDTH = 1,
-  parameter            ENC = "TP"
+  parameter            ENC = "TP",
+  parameter            WIDTH = 1
 )
 (
 //---------CTRL-----------------------
@@ -14,15 +14,15 @@ module mem_reg#(
 //------------------------------------
 );
 
-link_intf cell_in_link [REG_WIDTH-1 : 0] ();
-link_intf cell_out_link[REG_WIDTH-1 : 0] ();
+link_intf cell_in_link [WIDTH-1 : 0] ();
+link_intf cell_out_link[WIDTH-1 : 0] ();
 
-logic [REG_WIDTH-1 : 0] cell_out_ack;
+logic [WIDTH-1 : 0] cell_out_ack;
 
 genvar bit_idx;
 
 generate
-  for (bit_idx = 0; bit_idx < REG_WIDTH ; bit_idx = bit_idx + 1)
+  for (bit_idx = 0; bit_idx < WIDTH ; bit_idx = bit_idx + 1)
   begin 
 
     assign cell_in_link[bit_idx].data[0] = in.data[bit_idx];
@@ -47,7 +47,7 @@ endgenerate
 
 C#
 (
-  .IN_NUM(REG_WIDTH)
+  .IN_NUM(WIDTH)
 )
 c_collector
 (
