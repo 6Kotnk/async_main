@@ -1,17 +1,18 @@
 `timescale 1ns / 1ps
 
-module full_adder_tb();
+module fib_tb();
 
 localparam ENC = "TP";
+
+
+
 
 link_intf s_link_tb();
 link_intf c_out_link_tb();
 
-link_intf a_link_tb();
-link_intf b_link_tb();
-link_intf c_in_link_tb();
 
 logic rst_tb = 0;
+
 
 full_adder#
 (
