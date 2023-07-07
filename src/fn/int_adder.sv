@@ -35,7 +35,7 @@ generate
     (
       .ENC  (ENC)
     )
-    DUT
+    fa
     (
     //---------CTRL-----------------------
       .rst                        (rst),

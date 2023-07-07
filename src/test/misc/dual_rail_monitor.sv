@@ -18,6 +18,8 @@ logic [WIDTH-1:0][RAIL_NUM-1:0] in_state = '{default:'0};
 logic in_complete;
 logic [WIDTH-1:0] bit_complete;
 
+string str;
+
 genvar bit_idx;
 
 generate
@@ -50,7 +52,9 @@ c_collector
 
 always @ ( in_complete )
 begin
-  $display($signed(display_val));
+  //$display($signed(display_val));
+  str.hextoa(display_val);
+  $display(str.toupper);
   in_state <= in;
 end
 

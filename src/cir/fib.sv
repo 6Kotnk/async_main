@@ -17,11 +17,53 @@ module fib#(
 );
 
 
+
+
+
+
+
+
 /*
 
-vector of injectors
+int_adder#
+(
+  .WIDTH  (WIDTH),
+  .ENC    (ENC)
+)
+fib_add
+(
+//---------CTRL-----------------------
+  .rst                        (rst_tb),
+  .en                         (en_tb),
+//---------LINK-IN--------------------
+  .a                          (a_tb),
+  .b                          (b_tb),
+  .c_in                       (c_in_tb),
+//---------LINK-OUT-------------------
+  .s                          (s_tb),
+  .c_out                      (c_out_tb)
+//------------------------------------
+);
 
-adder
+int_adder#
+(
+  .WIDTH  (WIDTH),
+  .ENC    (ENC)
+)
+fib_add
+(
+//---------CTRL-----------------------
+  .rst                        (rst_tb),
+  .en                         (en_tb),
+//---------LINK-IN--------------------
+  .a                          (a_tb),
+  .b                          (b_tb),
+  .c_in                       (c_in_tb),
+//---------LINK-OUT-------------------
+  .s                          (s_tb),
+  .c_out                      (c_out_tb)
+//------------------------------------
+);
 
 mem_reg
 
