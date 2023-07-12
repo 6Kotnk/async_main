@@ -9,18 +9,17 @@ module mem_reg#(
 //---------CTRL-----------------------
   input                           rst,
 //---------LINK-IN--------------------
-  logic                           ack_out,
-  logic [WIDTH-1:0][RAIL_NUM-1:0] in,
+  output                          ack_o,
+  input [WIDTH-1:0][RAIL_NUM-1:0] in,
 //---------LINK-OUT-------------------
-  logic                           ack_in,
-  logic [WIDTH-1:0][RAIL_NUM-1:0] out
+  input                           ack_i,
+  output[WIDTH-1:0][RAIL_NUM-1:0] out
 //------------------------------------
 );
 
-logic [WIDTH-1:0][RAIL_NUM-1:0] cell_in_link ;
-logic [WIDTH-1:0][RAIL_NUM-1:0] cell_out_link;
 
-logic [WIDTH-1 : 0] cell_out_ack;
+logic lat_en;
+assign lat_en = ack_o ^ ack_i;
 
 genvar bit_idx;
 
@@ -28,36 +27,37 @@ generate
   for (bit_idx = 0; bit_idx < WIDTH ; bit_idx = bit_idx + 1)
   begin 
 
-    //assign cell_in_link[bit_idx].data[0] = in.data[bit_idx];
-    //assign cell_in_link[bit_idx].ack = in.ack ^ out.ack;
-    //assign out.data[bit_idx] = cell_out_link[bit_idx].data[0];
-    //assign cell_out_ack[bit_idx] = cell_out_link[bit_idx].ack;
 
     MEM_CELL#
     (
       .ENC(ENC)
     )
-    mem_cell_reg
+    reg_mem_cell
     (
       .rst(rst),
       
-      .in(cell_in_link[bit_idx]),
-      .out(cell_out_link[bit_idx])
+      .in(in[bit_idx]),
+      .lat_i(lat_en),
+      
+      .out(out[bit_idx])
     );
   end
 endgenerate 
 
 
-C#
+cmpl_det#
 (
-  .IN_NUM(WIDTH)
+  .ENC                        (ENC),
+  .WIDTH                      (WIDTH)
 )
-c_collector
+reg_cmpl_det
 (
+//---------CTRL----------------
   .rst(rst),
-  
-  .in(cell_out_ack),
-  .out(in.ack)
+//-----------------------------
+  .in(out),
+  .cmpl(ack_o)
+//-----------------------------
 );
 
 

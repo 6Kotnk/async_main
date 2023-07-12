@@ -3,65 +3,52 @@
 module fib_tb();
 
 localparam ENC = "TP";
+localparam WIDTH = 32;
+localparam RAIL_NUM = 2;
 
-
-
-
-link_intf s_link_tb();
-link_intf c_out_link_tb();
-
+logic ack_i_tb;
+logic [WIDTH-1:0][RAIL_NUM-1:0] out_tb;
 
 logic rst_tb = 0;
+logic start_tb = 0;
 
-
-full_adder#
+fib#
 (
-  .ENC  (ENC)
+  .ENC        (ENC),
+  .WIDTH      (WIDTH)
 )
 DUT
 (
 //---------CTRL-----------------------
   .rst                        (rst_tb),
-//---------LINK-IN--------------------
-  .a                          (a_link_tb),
-  .b                          (b_link_tb),
-  .c_in                       (c_in_link_tb),
+  .start                      (start_tb),
 //---------LINK-OUT-------------------
-  .s                          (s_link_tb),
-  .c_out                      (c_out_link_tb)
+  .ack_i                      (ack_i_tb),
+  .out                        (out_tb)
 //------------------------------------
 );
+
+link_monitor#(.ENC(ENC), .WIDTH(WIDTH))
+out_mon(.rst (rst_tb), .ack_o (ack_i_tb), .in(out_tb));
 
 initial
 begin
 
-  s_link_tb.data = '{default:'0};
-  s_link_tb.ack = '{default:'0};
-
-  c_out_link_tb.data = '{default:'0};
-  c_out_link_tb.ack = '{default:'0};
-
-  a_link_tb.data = '{default:'0};
-  a_link_tb.ack = '{default:'0};
-
-  b_link_tb.data = '{default:'0};
-  b_link_tb.ack = '{default:'0};
-
-  c_in_link_tb.data = '{default:'0};
-  c_in_link_tb.ack = '{default:'0};
-
   rst_tb = 1;
+  start_tb = 0;
+
   #100;    
   rst_tb = 0;
   #1000;
 
-  a_link_tb.data[0][0] = !a_link_tb.data[0][0];
-  #100;
-  b_link_tb.data[0][0] = !b_link_tb.data[0][0];
-  #100;
-  c_in_link_tb.data[0][0] = !c_in_link_tb.data[0][0];
-  #100;
-
+  start_tb = 1;
+/*
+  repeat(10)
+  begin
+    #100;
+    ack_i_tb = !ack_i_tb;
+  end
+*/
   #1000;
   $finish;  
 end

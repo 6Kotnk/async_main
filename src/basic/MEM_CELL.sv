@@ -1,29 +1,23 @@
 `timescale 1ns / 1ps
 
-import link_pkg::*;
-
 module MEM_CELL#(
-  parameter                     ENC = "TP"
+  parameter                     ENC = "TP",
+  localparam                    RAIL_NUM = 2
   
 )
 (
 //---------CTRL-----------------------
-  input                           rst,
+  input                         rst,
 //---------LINK-IN--------------------
-  link_intf.in                     in,
+  input                       lat_i,
+  input  [RAIL_NUM-1 : 0]        in,
 //---------LINK-OUT-------------------
-  link_intf.out                   out
+  output  [RAIL_NUM-1 : 0]      out
 //------------------------------------
 );
 
-// Two phase latches can be used for four phase systems
-
-multi_rail_bit out_r = 0;
-logic ack;
-
-assign ack = ^out_r;
-assign out.ack = ack;
-assign out.data = out_r;
+reg [RAIL_NUM-1 : 0] out_r = 0;
+assign out = out_r;
 
 always@(*)
 begin
@@ -33,13 +27,12 @@ begin
   end
   else
   begin
-    if(!in.ack)
+    if(!lat_i)
     begin
-      out_r = in.data;
+      out_r = in;
     end
   end
 end
-
 
 
 endmodule

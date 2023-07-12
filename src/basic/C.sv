@@ -74,7 +74,7 @@ begin: Lvls
   end
   
   
-    for (elem = 0; elem < in_size / 2; elem = elem + 1) 
+    for (elem = 0; elem < out_size; elem = elem + 1) 
     begin: Elems
 
     // for the first level connect inputs to the module
