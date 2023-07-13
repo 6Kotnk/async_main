@@ -18,15 +18,13 @@ module fib#(
 );
 
 
-logic add_done;
+
 logic [WIDTH:0][RAIL_NUM-1:0]add_dat;
 logic add_ack;
-
-logic en;
-assign en = add_done ^^ add_ack;
+logic add_in_ack;
 
 logic [RAIL_NUM-1:0]add_c_in;
-assign add_c_in = {0,!add_ack};
+assign add_c_in = {0,!add_in_ack};
 
 logic [WIDTH:0][RAIL_NUM-1:0]add_r_dat;
 logic add_r_ack;
@@ -89,30 +87,16 @@ fib_add
 (
 //---------CTRL-----------------------
   .rst                        (rst),
-  .en                         (en),
 //---------LINK-IN--------------------
+  .ack_o                      (add_in_ack),
   .a                          (reg_a_inj_dat[WIDTH-1:0]),
   .b                          (reg_b_inj_dat[WIDTH-1:0]),
   .c_in                       (add_c_in),
 //---------LINK-OUT-------------------
+  .ack_i                      (add_ack),
   .s                          (add_dat[WIDTH-1:0]),
   .c_out                      (add_dat[WIDTH])
 //------------------------------------
-);
-
-cmpl_det#
-(
-  .ENC                        (ENC),
-  .WIDTH                      (WIDTH+1)
-)
-reg_cmpl_det
-(
-//---------CTRL----------------
-  .rst(rst),
-//-----------------------------
-  .in(add_dat),
-  .cmpl(add_done)
-//-----------------------------
 );
 
 mem_reg#
@@ -154,7 +138,7 @@ c_a
 (
   .rst(rst),
   
-  .in({reg_a_ack,add_ack}),
+  .in({reg_a_ack,add_in_ack}),
   .out(reg_a_add_ack)
 );
 
@@ -180,7 +164,7 @@ c_b
 (
   .rst(rst),
   
-  .in({reg_b_ack,add_ack}),
+  .in({reg_b_ack,add_in_ack}),
   .out(reg_b_add_ack)
 );
 
