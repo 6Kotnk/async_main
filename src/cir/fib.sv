@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 module fib#(
   parameter                   ENC = "TP",
   parameter                   WIDTH = 32,
@@ -16,8 +15,6 @@ module fib#(
   output[WIDTH-1:0][RAIL_NUM-1:0] out
 //------------------------------------
 );
-
-
 
 logic [WIDTH:0][RAIL_NUM-1:0]add_dat;
 logic add_ack;
@@ -167,7 +164,5 @@ c_b
   .in({reg_b_ack,add_in_ack}),
   .out(reg_b_add_ack)
 );
-
-
 
 endmodule

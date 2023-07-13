@@ -33,14 +33,40 @@ task automatic drive;
 begin
   int bit_idx;
 
-  wait(!pending);
+  
 
-  ack_state <= !ack_state;
 
-  for (bit_idx = 0; bit_idx < WIDTH ; bit_idx = bit_idx + 1)
-  begin 
-    out[bit_idx][1] <= out[bit_idx][1] ^ data[bit_idx];
-    out[bit_idx][0] <= out[bit_idx][0] ^ (!data[bit_idx]);
+  if(ENC == "TP")
+  begin
+    wait(!pending);
+    #100;
+    ack_state <= !ack_state;
+
+    for (bit_idx = 0; bit_idx < WIDTH ; bit_idx = bit_idx + 1)
+    begin 
+      out[bit_idx][1] <= out[bit_idx][1] ^ data[bit_idx];
+      out[bit_idx][0] <= out[bit_idx][0] ^ (!data[bit_idx]);
+    end
+  end
+  else if(ENC == "FP")
+  begin
+    
+    wait(!ack_i);
+    #101;
+    for (bit_idx = 0; bit_idx < WIDTH ; bit_idx = bit_idx + 1)
+    begin 
+      out[bit_idx][1] <=  data[bit_idx];
+      out[bit_idx][0] <= !data[bit_idx];
+    end
+
+    wait(ack_i);
+    #101;
+    for (bit_idx = 0; bit_idx < WIDTH ; bit_idx = bit_idx + 1)
+    begin 
+      out[bit_idx][1] <= 0;
+      out[bit_idx][0] <= 0;
+    end
+
   end
 end
 endtask

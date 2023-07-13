@@ -37,7 +37,7 @@ begin
   rst_tb = 1;
   start_tb = 0;
 
-  #100;    
+  #1000;    
   rst_tb = 0;
   #1000;
 

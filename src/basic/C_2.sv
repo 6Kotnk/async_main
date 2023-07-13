@@ -49,13 +49,16 @@ LDCE_inst (
 
 */
 
+logic out_pre;
+assign #37 out = out_pre;
+
 LUT4 #
 (
     .INIT(16'h00E8)
 )
 LUT4_inst
 (
-    .O  (out),
+    .O  (out_pre),
     .I0 (in[0]),
     .I1 (in[1]),
     .I2 (out),

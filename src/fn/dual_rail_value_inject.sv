@@ -23,8 +23,16 @@ genvar bit_idx;
 generate
   for (bit_idx = 0; bit_idx < WIDTH ; bit_idx = bit_idx + 1)
   begin 
-    assign out[bit_idx][1] = in[bit_idx][1] ^ ( data[bit_idx] && en);
-    assign out[bit_idx][0] = in[bit_idx][0] ^ (!data[bit_idx] && en);
+    if (ENC == "TP")
+    begin
+      assign out[bit_idx][1] = in[bit_idx][1] ^^ ( data[bit_idx] && en);
+      assign out[bit_idx][0] = in[bit_idx][0] ^^ (!data[bit_idx] && en);
+    end
+    else
+    begin
+      assign out[bit_idx][1] = in[bit_idx][1] || ( data[bit_idx] && en);
+      assign out[bit_idx][0] = in[bit_idx][0] || (!data[bit_idx] && en);
+    end
   end
 endgenerate 
 

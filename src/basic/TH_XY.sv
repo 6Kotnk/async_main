@@ -18,8 +18,9 @@ module TH_XY#(
 
 localparam IN_NUM_ACTUAL = CFG[39:32] - 48;
 
-wire [IN_NUM-1:0] in_p;
-
+logic [IN_NUM-1:0] in_p;
+logic out_pre;
+assign #43 out = out_pre;
 
 generate
 
@@ -60,7 +61,7 @@ TH_XY_core_inst
 (
   .rst  (rst),
   .in   (in_p),
-  .out  (out)
+  .out  (out_pre)
 );
 
 endmodule

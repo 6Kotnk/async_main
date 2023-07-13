@@ -15,6 +15,7 @@ module cmpl_det#(
 //------------------------------------
 );
 
+
 logic [WIDTH-1:0] cmpl_bit;
 
 genvar bit_idx;
@@ -22,7 +23,14 @@ genvar bit_idx;
 generate
   for (bit_idx = 0; bit_idx < WIDTH ; bit_idx = bit_idx + 1)
   begin
-    assign cmpl_bit[bit_idx] = ^in[bit_idx];
+    if(ENC == "TP")
+    begin
+      assign cmpl_bit[bit_idx] = ^in[bit_idx];
+    end
+    else if(ENC == "FP")
+    begin
+      assign cmpl_bit[bit_idx] = |in[bit_idx];
+    end
   end
 endgenerate 
 

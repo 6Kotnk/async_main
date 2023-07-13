@@ -17,7 +17,7 @@ module MEM_CELL#(
 );
 
 reg [RAIL_NUM-1 : 0] out_r = 0;
-assign out = out_r;
+assign #73 out = out_r;
 
 always@(*)
 begin
