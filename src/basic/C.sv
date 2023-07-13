@@ -57,12 +57,11 @@ genvar elem,lvl;
 generate for (lvl = 0; lvl < NUM_OF_LEVELS; lvl = lvl + 1) 
 begin: Lvls
 
-    localparam in_size = (lvl == 0) ? IN_NUM : (IN_NUM >> lvl) + parity(IN_NUM,lvl);
-  
+  localparam in_size = (lvl == 0) ? IN_NUM : (IN_NUM >> lvl) + parity(IN_NUM,lvl);
   localparam out_size = ((in_size / 2) + in_size[0]);
 
   wire [in_size-1:0] in_int;
-    wire [out_size-1:0] out_int;
+  wire [out_size-1:0] out_int;
   
   if (lvl == 0) 
   begin
@@ -72,10 +71,9 @@ begin: Lvls
   begin
     assign in_int = Lvls[lvl-1].out_int;
   end
-  
-  
-    for (elem = 0; elem < out_size; elem = elem + 1) 
-    begin: Elems
+
+  for (elem = 0; elem < (in_size / 2); elem = elem + 1) 
+  begin: Elems
 
     // for the first level connect inputs to the module
     C_2 c_inst
@@ -84,12 +82,13 @@ begin: Lvls
       .in(in_int[elem * ELEM_W +: ELEM_W]),
       .out(out_int[elem])
     );
-    
-    if (in_size[0]) // Unalligned input
-    begin
-      assign out_int[out_size-1] = in_int[in_size-1];
-    end
   end
+
+  if (in_size[0]) // Unalligned input
+  begin
+    assign out_int[out_size-1] = in_int[in_size-1];
+  end
+  
 end
 endgenerate
 

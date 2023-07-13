@@ -23,7 +23,7 @@ DUT
   .rst                        (rst_tb),
   .start                      (start_tb),
 //---------LINK-OUT-------------------
-  .ack_i                      (ack_i_tb),
+  .ack_i                      (!ack_i_tb),
   .out                        (out_tb)
 //------------------------------------
 );
@@ -42,14 +42,8 @@ begin
   #1000;
 
   start_tb = 1;
-/*
-  repeat(10)
-  begin
-    #100;
-    ack_i_tb = !ack_i_tb;
-  end
-*/
-  #1000;
+  repeat(10)@(ack_i_tb);
+
   $finish;  
 end
 

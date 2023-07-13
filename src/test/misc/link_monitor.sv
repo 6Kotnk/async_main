@@ -60,8 +60,10 @@ c_collector
 always @ ( ack_o )
 begin
   //$display($signed(display_val));
-  str.hextoa(display_val);
-  $display(str.toupper);
+  //str.hextoa(display_val);
+  //$display(display_val,str.toupper);
+  //in_state <= in;
+  $display("DECIMAL:%d      HEX:0x%h",display_val,display_val);
   in_state <= in;
 end
 

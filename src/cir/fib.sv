@@ -31,12 +31,12 @@ assign add_c_in = {0,!add_ack};
 logic [WIDTH:0][RAIL_NUM-1:0]add_r_dat;
 logic add_r_ack;
 
-logic [WIDTH-1:0][RAIL_NUM-1:0]reg_a_inj_dat;
+logic [WIDTH:0][RAIL_NUM-1:0]reg_a_inj_dat;
 logic [WIDTH:0][RAIL_NUM-1:0]reg_a_dat;
 logic reg_a_add_ack;
 logic reg_a_ack;
 
-logic [WIDTH-1:0][RAIL_NUM-1:0]reg_b_inj_dat;
+logic [WIDTH:0][RAIL_NUM-1:0]reg_b_inj_dat;
 logic [WIDTH:0][RAIL_NUM-1:0]reg_b_dat;
 logic reg_b_add_ack;
 logic reg_b_ack;
@@ -47,7 +47,7 @@ assign out = reg_b_dat[WIDTH-1:0];
 dual_rail_value_inject#
 (
   .ENC                        (ENC),
-  .WIDTH                      (WIDTH)
+  .WIDTH                      (WIDTH+1)
 )
 inj_a
 (
@@ -56,7 +56,7 @@ inj_a
   .en                         (start),
   .data                       (1),
 //---------LINK-IN--------------------
-  .in                         (reg_a_dat[WIDTH-1:0]),
+  .in                         (reg_a_dat),
 //---------LINK-OUT-------------------
   .out                        (reg_a_inj_dat)
 //------------------------------------
@@ -65,7 +65,7 @@ inj_a
 dual_rail_value_inject#
 (
   .ENC                        (ENC),
-  .WIDTH                      (WIDTH)
+  .WIDTH                      (WIDTH+1)
 )
 inj_b
 (
@@ -74,7 +74,7 @@ inj_b
   .en                         (start),
   .data                       (1),
 //---------LINK-IN--------------------
-  .in                         (reg_b_dat[WIDTH-1:0]),
+  .in                         (reg_b_dat),
 //---------LINK-OUT-------------------
   .out                        (reg_b_inj_dat)
 //------------------------------------
@@ -91,8 +91,8 @@ fib_add
   .rst                        (rst),
   .en                         (en),
 //---------LINK-IN--------------------
-  .a                          (reg_a_inj_dat),
-  .b                          (reg_b_inj_dat),
+  .a                          (reg_a_inj_dat[WIDTH-1:0]),
+  .b                          (reg_b_inj_dat[WIDTH-1:0]),
   .c_in                       (add_c_in),
 //---------LINK-OUT-------------------
   .s                          (add_dat[WIDTH-1:0]),
@@ -169,7 +169,7 @@ regb
   .rst                        (rst),
 //---------LINK-IN--------------------
   .ack_o                      (reg_a_ack),
-  .in                         (reg_a_dat),
+  .in                         (reg_a_inj_dat),
 //------------------------------------
   .ack_i                      (!reg_b_add_ack),
   .out                        (reg_b_dat)
