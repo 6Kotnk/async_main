@@ -2,7 +2,7 @@
 
 module fib_tb();
 
-localparam ENC = "TP";
+localparam ENC = "FP";
 localparam WIDTH = 32;
 localparam RAIL_NUM = 2;
 
@@ -42,6 +42,12 @@ begin
   #1000;
 
   start_tb = 1;
+  if (ENC == "FP")
+  begin
+    //@(posedge ack_i_tb);
+    #760
+    start_tb = 0;
+  end
   repeat(10)@(ack_i_tb);
 
   $finish;  

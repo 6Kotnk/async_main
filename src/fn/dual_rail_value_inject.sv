@@ -28,7 +28,7 @@ generate
       assign out[bit_idx][1] = in[bit_idx][1] ^^ ( data[bit_idx] && en);
       assign out[bit_idx][0] = in[bit_idx][0] ^^ (!data[bit_idx] && en);
     end
-    else
+    else if(ENC == "FP")
     begin
       assign out[bit_idx][1] = in[bit_idx][1] || ( data[bit_idx] && en);
       assign out[bit_idx][0] = in[bit_idx][0] || (!data[bit_idx] && en);

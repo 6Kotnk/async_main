@@ -47,11 +47,7 @@ generate
     end
     else if(ENC == "FP")
     begin
-      always @ ( ack_pre )
-      begin
-        #100;
-        display_val[bit_idx] <= in[bit_idx][1];
-      end
+      assign display_val[bit_idx] = in[bit_idx][1];
     end
   end
 endgenerate
@@ -60,25 +56,18 @@ assign #137 ack_o = ack_pre;
 
 if(ENC == "TP")
 begin
-
   always @ ( ack_o )
   begin
     $display("DECIMAL:%d      HEX:0x%h",display_val,display_val);
     in_state <= in;
   end
-
 end
 else if(ENC == "FP")
-
-
 begin
   always @ ( posedge ack_o )
   begin
     $display("DECIMAL:%d      HEX:0x%h",display_val,display_val);
   end
 end
-
-
-
 
 endmodule

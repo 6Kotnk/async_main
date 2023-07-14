@@ -48,12 +48,18 @@ begin
   rst_tb = 0;
   #1000;
   en_tb = 1;
-  #100;
+  #1000;
+  if(ENC == "FP")
+  begin
+    en_tb = 0;
+    #1000;
+  end
 
-  in_drv.drive(0);     #100;
-  in_drv.drive(32'h01234567);     #100;
-  in_drv.drive(0);     #100;
-  in_drv.drive(32'h89abcdef);     #100;
+
+  in_drv.drive(0);     #1000;
+  in_drv.drive(32'h01234567);     #1000;
+  in_drv.drive(0);     #1000;
+  in_drv.drive(32'h89abcdef);     #1000;
 
 
   #1000;

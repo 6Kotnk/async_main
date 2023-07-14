@@ -33,9 +33,6 @@ task automatic drive;
 begin
   int bit_idx;
 
-  
-
-
   if(ENC == "TP")
   begin
     wait(!pending);
