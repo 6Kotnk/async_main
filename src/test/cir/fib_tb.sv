@@ -23,7 +23,7 @@ DUT
   .rst                        (rst_tb),
   .start                      (start_tb),
 //---------LINK-OUT-------------------
-  .ack_i                      (!ack_i_tb),
+  .ack_i                      (ack_i_tb),
   .out                        (out_tb)
 //------------------------------------
 );
@@ -44,8 +44,7 @@ begin
   start_tb = 1;
   if (ENC == "FP")
   begin
-    //@(posedge ack_i_tb);
-    #760
+    @(posedge ack_i_tb);
     start_tb = 0;
   end
   repeat(10)@(ack_i_tb);

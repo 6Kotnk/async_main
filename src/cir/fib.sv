@@ -126,7 +126,7 @@ reg_a
   .ack_o                      (add_r_ack),
   .in                         (add_r_dat),
 //------------------------------------
-  .ack_i                      (!reg_a_add_ack),
+  .ack_i                      (reg_a_add_ack),
   .out                        (reg_a_dat)
 );
 
@@ -152,7 +152,7 @@ regb
   .ack_o                      (reg_a_ack),
   .in                         (reg_a_inj_dat),
 //------------------------------------
-  .ack_i                      (!reg_b_add_ack),
+  .ack_i                      (reg_b_add_ack),
   .out                        (reg_b_dat)
 );
 
