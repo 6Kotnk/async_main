@@ -21,59 +21,30 @@ logic add_ack;
 logic add_in_ack;
 
 logic [RAIL_NUM-1:0]add_c_in;
-assign add_c_in = {0,!add_in_ack};
+assign add_c_in = {0,!add_in_ack}; // Source channel
 
 logic [WIDTH:0][RAIL_NUM-1:0]add_r_dat;
 logic add_r_ack;
 
-logic [WIDTH:0][RAIL_NUM-1:0]reg_a_inj_dat;
+
 logic [WIDTH:0][RAIL_NUM-1:0]reg_a_dat;
-logic reg_a_add_ack;
 logic reg_a_ack;
 
-logic [WIDTH:0][RAIL_NUM-1:0]reg_b_inj_dat;
+logic [WIDTH:0][RAIL_NUM-1:0]reg_a_dat_b;
+logic reg_a_add_ack_b;
+logic reg_a_ack_b;
+
 logic [WIDTH:0][RAIL_NUM-1:0]reg_b_dat;
-logic reg_b_add_ack;
 logic reg_b_ack;
+
+logic [WIDTH:0][RAIL_NUM-1:0]reg_b_dat_b;
+logic reg_b_add_ack_b;
+logic reg_b_ack_b;
+
 
 assign reg_b_ack = ack_i;
 assign out = reg_b_dat[WIDTH-1:0];
 
-dual_rail_value_inject#
-(
-  .ENC                        (ENC),
-  .WIDTH                      (WIDTH+1)
-)
-inj_a
-(
-//---------CTRL-----------------------
-  .rst                        (rst),
-  .en                         (start),
-  .data                       (1),
-//---------LINK-IN--------------------
-  .in                         (reg_a_dat),
-//---------LINK-OUT-------------------
-  .out                        (reg_a_inj_dat)
-//------------------------------------
-);
-
-dual_rail_value_inject#
-(
-  .ENC                        (ENC),
-  .WIDTH                      (WIDTH+1)
-)
-inj_b
-(
-//---------CTRL-----------------------
-  .rst                        (rst),
-  .en                         (start),
-  .data                       (1),
-//---------LINK-IN--------------------
-  .in                         (reg_b_dat),
-//---------LINK-OUT-------------------
-  .out                        (reg_b_inj_dat)
-//------------------------------------
-);
 
 int_adder#
 (
@@ -86,8 +57,8 @@ fib_add
   .rst                        (rst),
 //---------LINK-IN--------------------
   .ack_o                      (add_in_ack),
-  .a                          (reg_a_inj_dat[WIDTH-1:0]),
-  .b                          (reg_b_inj_dat[WIDTH-1:0]),
+  .a                          (reg_a_dat_b[WIDTH-1:0]),
+  .b                          (reg_b_dat_b[WIDTH-1:0]),
   .c_in                       (add_c_in),
 //---------LINK-OUT-------------------
   .ack_i                      (add_ack),
@@ -95,6 +66,7 @@ fib_add
   .c_out                      (add_dat[WIDTH])
 //------------------------------------
 );
+
 
 mem_reg#
 (
@@ -115,6 +87,7 @@ adder_reg
 
 mem_reg#
 (
+  .INIT       (1),
   .ENC        (ENC),
   .WIDTH      (WIDTH+1)
 )
@@ -126,8 +99,23 @@ reg_a
   .ack_o                      (add_r_ack),
   .in                         (add_r_dat),
 //------------------------------------
-  .ack_i                      (reg_a_add_ack),
+  .ack_i                      (reg_a_ack),
   .out                        (reg_a_dat)
+);
+
+barrier#
+(
+  .WIDTH      (WIDTH+1)
+)
+barrier_a
+(//---------CTRL-----------------------
+  .start                      (start),
+//---------LINK-IN--------------------
+  .ack_o                      (reg_a_ack),
+  .in                         (reg_a_dat),
+//------------------------------------
+  .ack_i                      (reg_a_add_ack_b),
+  .out                        (reg_a_dat_b)
 );
 
 C_2
@@ -136,11 +124,12 @@ c_a
   .rst(rst),
   
   .in({reg_a_ack,add_in_ack}),
-  .out(reg_a_add_ack)
+  .out(reg_a_add_ack_b)
 );
 
 mem_reg#
 (
+  .INIT       (1),
   .ENC        (ENC),
   .WIDTH      (WIDTH+1)
 )
@@ -150,10 +139,25 @@ regb
   .rst                        (rst),
 //---------LINK-IN--------------------
   .ack_o                      (reg_a_ack),
-  .in                         (reg_a_inj_dat),
+  .in                         (reg_a_dat_b),
 //------------------------------------
-  .ack_i                      (reg_b_add_ack),
+  .ack_i                      (reg_b_ack),
   .out                        (reg_b_dat)
+);
+
+barrier#
+(
+  .WIDTH      (WIDTH+1)
+)
+barrier_b
+(//---------CTRL-----------------------
+  .start                      (start),
+//---------LINK-IN--------------------
+  .ack_o                      (reg_b_ack),
+  .in                         (reg_b_dat),
+//------------------------------------
+  .ack_i                      (reg_b_add_ack_b),
+  .out                        (reg_b_dat_b)
 );
 
 C_2
@@ -162,7 +166,7 @@ c_b
   .rst(rst),
   
   .in({reg_b_ack,add_in_ack}),
-  .out(reg_b_add_ack)
+  .out(reg_b_add_ack_b)
 );
 
 endmodule

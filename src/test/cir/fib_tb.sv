@@ -2,7 +2,7 @@
 
 module fib_tb();
 
-localparam ENC = "FP";
+localparam ENC = "TP";
 localparam WIDTH = 32;
 localparam RAIL_NUM = 2;
 
@@ -37,9 +37,9 @@ begin
   rst_tb = 1;
   start_tb = 0;
 
-  #1000;    
+  #2000;    
   rst_tb = 0;
-  #1000;
+  #2000;
 
   start_tb = 1;
   if (ENC == "FP")
