@@ -54,7 +54,7 @@ assign #37 out = out_pre;
 
 LUT4 #
 (
-    .INIT(16'h00E8)
+    .INIT(16'h88E8)
 )
 LUT4_inst
 (

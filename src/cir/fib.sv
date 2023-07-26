@@ -42,7 +42,7 @@ logic reg_b_add_ack_b;
 logic reg_b_ack_b;
 
 
-assign reg_b_ack = ack_i;
+assign reg_b_ack_b = ack_i;
 assign out = reg_b_dat[WIDTH-1:0];
 
 
@@ -109,7 +109,7 @@ barrier#
 )
 barrier_a
 (//---------CTRL-----------------------
-  .start                      (start),
+  .start                      (1),
 //---------LINK-IN--------------------
   .ack_o                      (reg_a_ack),
   .in                         (reg_a_dat),
@@ -123,7 +123,7 @@ c_a
 (
   .rst(rst),
   
-  .in({reg_a_ack,add_in_ack}),
+  .in({reg_a_ack_b,add_in_ack}),
   .out(reg_a_add_ack_b)
 );
 
@@ -138,7 +138,7 @@ regb
 //---------CTRL-----------------------
   .rst                        (rst),
 //---------LINK-IN--------------------
-  .ack_o                      (reg_a_ack),
+  .ack_o                      (reg_a_ack_b),
   .in                         (reg_a_dat_b),
 //------------------------------------
   .ack_i                      (reg_b_ack),
@@ -165,7 +165,7 @@ c_b
 (
   .rst(rst),
   
-  .in({reg_b_ack,add_in_ack}),
+  .in({reg_b_ack_b,add_in_ack}),
   .out(reg_b_add_ack_b)
 );
 
