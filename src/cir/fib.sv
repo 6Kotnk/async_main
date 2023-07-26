@@ -29,20 +29,17 @@ logic add_r_ack;
 
 logic [WIDTH:0][RAIL_NUM-1:0]reg_a_dat;
 logic reg_a_ack;
-
-logic [WIDTH:0][RAIL_NUM-1:0]reg_a_dat_b;
-logic reg_a_add_ack_b;
-logic reg_a_ack_b;
+logic reg_a_ack1;
 
 logic [WIDTH:0][RAIL_NUM-1:0]reg_b_dat;
 logic reg_b_ack;
 
 logic [WIDTH:0][RAIL_NUM-1:0]reg_b_dat_b;
 logic reg_b_add_ack_b;
-logic reg_b_ack_b;
+logic reg_b_ack1;
 
 
-assign reg_b_ack_b = ack_i;
+assign reg_b_ack1 = ack_i;
 assign out = reg_b_dat[WIDTH-1:0];
 
 
@@ -57,7 +54,7 @@ fib_add
   .rst                        (rst),
 //---------LINK-IN--------------------
   .ack_o                      (add_in_ack),
-  .a                          (reg_a_dat_b[WIDTH-1:0]),
+  .a                          (reg_a_dat[WIDTH-1:0]),
   .b                          (reg_b_dat_b[WIDTH-1:0]),
   .c_in                       (add_c_in),
 //---------LINK-OUT-------------------
@@ -103,29 +100,15 @@ reg_a
   .out                        (reg_a_dat)
 );
 
-barrier#
-(
-  .WIDTH      (WIDTH+1)
-)
-barrier_a
-(//---------CTRL-----------------------
-  .start                      (1),
-//---------LINK-IN--------------------
-  .ack_o                      (reg_a_ack),
-  .in                         (reg_a_dat),
-//------------------------------------
-  .ack_i                      (reg_a_add_ack_b),
-  .out                        (reg_a_dat_b)
-);
-
 C_2
 c_a
 (
   .rst(rst),
   
-  .in({reg_a_ack_b,add_in_ack}),
-  .out(reg_a_add_ack_b)
+  .in({reg_a_ack1,add_in_ack}),
+  .out(reg_a_ack)
 );
+
 
 mem_reg#
 (
@@ -138,8 +121,8 @@ regb
 //---------CTRL-----------------------
   .rst                        (rst),
 //---------LINK-IN--------------------
-  .ack_o                      (reg_a_ack_b),
-  .in                         (reg_a_dat_b),
+  .ack_o                      (reg_a_ack1),
+  .in                         (reg_a_dat),
 //------------------------------------
   .ack_i                      (reg_b_ack),
   .out                        (reg_b_dat)
@@ -149,7 +132,7 @@ barrier#
 (
   .WIDTH      (WIDTH+1)
 )
-barrier_b
+barrier
 (//---------CTRL-----------------------
   .start                      (start),
 //---------LINK-IN--------------------
@@ -165,7 +148,7 @@ c_b
 (
   .rst(rst),
   
-  .in({reg_b_ack_b,add_in_ack}),
+  .in({reg_b_ack1,add_in_ack}),
   .out(reg_b_add_ack_b)
 );
 
