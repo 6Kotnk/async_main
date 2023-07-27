@@ -1,7 +1,6 @@
 `timescale 1ns / 1ps
 
-module fib#(
-  parameter                   ENC = "TP",
+module fib_fp#(
   parameter                   WIDTH = 32,
   localparam                  RAIL_NUM = 2  
 
@@ -16,6 +15,8 @@ module fib#(
 //------------------------------------
 );
 
+localparam ENC = "FP";
+
 logic [WIDTH:0][RAIL_NUM-1:0]add_dat;
 logic add_ack;
 logic add_in_ack;
@@ -23,9 +24,11 @@ logic add_in_ack;
 logic [RAIL_NUM-1:0]add_c_in;
 assign add_c_in = {0,!add_in_ack}; // Source channel
 
-logic [WIDTH:0][RAIL_NUM-1:0]add_r_dat;
-logic add_r_ack;
+logic [WIDTH:0][RAIL_NUM-1:0]add_r1_dat;
+logic add_r1_ack;
 
+logic [WIDTH:0][RAIL_NUM-1:0]add_r2_dat;
+logic add_r2_ack;
 
 logic [WIDTH:0][RAIL_NUM-1:0]reg_a_dat;
 logic reg_a_ack;
@@ -70,7 +73,7 @@ mem_reg#
   .ENC        (ENC),
   .WIDTH      (WIDTH+1)
 )
-adder_reg
+adder_reg1
 (
 //---------CTRL-----------------------
   .rst                        (rst),
@@ -78,8 +81,25 @@ adder_reg
   .ack_o                      (add_ack),
   .in                         (add_dat),
 //------------------------------------
-  .ack_i                      (add_r_ack),
-  .out                        (add_r_dat)
+  .ack_i                      (add_r1_ack),
+  .out                        (add_r1_dat)
+);
+
+mem_reg#
+(
+  .ENC        (ENC),
+  .WIDTH      (WIDTH+1)
+)
+adder_reg2
+(
+//---------CTRL-----------------------
+  .rst                        (rst),
+//---------LINK-IN--------------------
+  .ack_o                      (add_r1_ack),
+  .in                         (add_r1_dat),
+//------------------------------------
+  .ack_i                      (add_r2_ack),
+  .out                        (add_r2_dat)
 );
 
 mem_reg#
@@ -93,8 +113,8 @@ reg_a
 //---------CTRL-----------------------
   .rst                        (rst),
 //---------LINK-IN--------------------
-  .ack_o                      (add_r_ack),
-  .in                         (add_r_dat),
+  .ack_o                      (add_r2_ack),
+  .in                         (add_r2_dat),
 //------------------------------------
   .ack_i                      (reg_a_ack),
   .out                        (reg_a_dat)
@@ -112,7 +132,7 @@ c_a
 
 mem_reg#
 (
-  .INIT       (1),
+  .INIT       (0),
   .ENC        (ENC),
   .WIDTH      (WIDTH+1)
 )

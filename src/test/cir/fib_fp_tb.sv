@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module fib_tb();
+module fib_fp_tb();
 
 localparam ENC = "TP";
 localparam WIDTH = 32;
@@ -12,9 +12,8 @@ logic [WIDTH-1:0][RAIL_NUM-1:0] out_tb;
 logic rst_tb = 0;
 logic start_tb = 0;
 
-fib#
+fib_fp#
 (
-  .ENC        (ENC),
   .WIDTH      (WIDTH)
 )
 DUT
@@ -42,12 +41,8 @@ begin
   #2000;
 
   start_tb = 1;
-  if (ENC == "FP")
-  begin
-    @(posedge ack_i_tb);
-    start_tb = 0;
-  end
-  repeat(10)@(ack_i_tb);
+
+  repeat(10)@(posedge ack_i_tb);
 
   $finish;  
 end
