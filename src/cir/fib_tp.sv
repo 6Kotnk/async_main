@@ -22,7 +22,18 @@ logic add_ack;
 logic add_in_ack;
 
 logic [RAIL_NUM-1:0]add_c_in;
-assign add_c_in = {0,!add_in_ack}; // Source channel
+
+mem_reg_src#
+(
+  .VAL        (0),
+  .WIDTH      (1)
+)
+carry_src
+(
+//------------------------------------
+  .ack_i                      (add_in_ack),
+  .out                        (add_c_in)
+);
 
 logic [WIDTH:0][RAIL_NUM-1:0]add_r_dat;
 logic add_r_ack;

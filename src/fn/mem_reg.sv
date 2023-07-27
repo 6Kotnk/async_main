@@ -29,30 +29,83 @@ generate
   begin 
 
 
-    MEM_CELL#
-    (
-      .ENC(ENC)
-    )
-    reg_mem_cell
-    (
-      .rst(rst),
-      
-      .in(in[bit_idx]),
-      .lat_i(lat_en),
-      
-      .out(out_int[bit_idx])
-    );
 
-    if(INIT == "UNINITIALIZED")
+    if(ENC == "FP")
     begin
+      if(INIT == "UNINITIALIZED")
+      begin
+        MEM_CELL#
+        (
+          .ENC(ENC)
+        )
+        reg_mem_cell
+        (
+          .rst(rst),
+          
+          .in(in[bit_idx]),
+          .lat_i(lat_en),
+          
+          .out(out_int[bit_idx])
+        );
+        assign out[bit_idx] = out_int[bit_idx];
+        assign lat_en = ack_o ^ ack_i;
+
+      end
+      else
+      begin
+        MEM_CELL#
+        (
+          .INIT(1 << INIT[bit_idx]),
+          .ENC(ENC)
+        )
+        reg_mem_cell
+        (
+          .rst(rst),
+          
+          .in(in[bit_idx]),
+          .lat_i(lat_en),
+          
+          .out(out_int[bit_idx])
+        );
+      end
+
       assign out[bit_idx] = out_int[bit_idx];
       assign lat_en = ack_o ^ ack_i;
+
+    end
+    else if (ENC == "TP")
+    begin
+
+
+      MEM_CELL#
+      (
+        .ENC(ENC)
+      )
+      reg_mem_cell
+      (
+        .rst(rst),
+        
+        .in(in[bit_idx]),
+        .lat_i(lat_en),
+        
+        .out(out_int[bit_idx])
+      );
+
+      if(INIT == "UNINITIALIZED")
+      begin
+        assign out[bit_idx] = out_int[bit_idx];
+        assign lat_en = ack_o ^ ack_i;
+      end
+      else
+      begin
+        assign out[bit_idx][1] = out_int[bit_idx][1] ^   INIT[bit_idx];
+        assign out[bit_idx][0] = out_int[bit_idx][0] ^ (!INIT[bit_idx]);
+        assign lat_en = ack_o ^ !ack_i;
+      end
     end
     else
     begin
-      assign out[bit_idx][1] = out_int[bit_idx][1] ^   INIT[bit_idx];
-      assign out[bit_idx][0] = out_int[bit_idx][0] ^ (!INIT[bit_idx]);
-      assign lat_en = ack_o ^ !ack_i;
+      $error("Invalid encoding");
     end
 
   end
