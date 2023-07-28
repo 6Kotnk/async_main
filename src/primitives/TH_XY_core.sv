@@ -50,6 +50,23 @@ begin
   );
   end
 
+  else if (CFG == "3_1_2")
+  begin
+  LUT5 #
+  (
+    .INIT(32'h0000a8ea)
+  )
+  FP_3_0_2_inst
+  (
+    .O  (out),
+    .I0 (in[0]),
+    .I1 (in[1]),
+    .I2 (in[2]),
+    .I3 (out),
+    .I4 (rst)
+  );
+  end
+
   if (CFG == "4_1_3")
   begin
     LUT4 #
@@ -107,6 +124,23 @@ begin
   LUT5 #
   (
     .INIT(32'h0000fee8)
+  )
+  FP_3_0_2_inst
+  (
+    .O  (out),
+    .I0 (in[0]),
+    .I1 (in[1]),
+    .I2 (in[2]),
+    .I3 (out),
+    .I4 (rst)
+  );
+  end
+
+  else if (CFG == "3_1_2")
+  begin
+  LUT5 #
+  (
+    .INIT(32'h0000feea)
   )
   FP_3_0_2_inst
   (
