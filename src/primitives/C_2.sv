@@ -25,6 +25,8 @@ rs_lat primitive_latch
     .s(set),
     .out(out)
 );
+*/
+
 
 
 LDCE #(
@@ -41,14 +43,7 @@ LDCE_inst (
    .GE(1)    // 1-bit input: Gate enable
 );
 
-
-
-
-
-
-
-*/
-
+/*
 logic out_pre;
 assign #37 out = out_pre;
 
@@ -64,7 +59,7 @@ LUT4_inst
     .I2 (out),
     .I3 (rst)
 );
-
+*/
 
 
 endmodule

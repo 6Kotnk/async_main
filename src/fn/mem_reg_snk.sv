@@ -10,7 +10,7 @@ module mem_reg_snk#(
   input                           rst,
 //---------LINK-IN--------------------
   output                          ack_o,
-  input [WIDTH-1:0][RAIL_NUM-1:0] in,
+  input [WIDTH-1:0][RAIL_NUM-1:0] in
 //------------------------------------
 );
 

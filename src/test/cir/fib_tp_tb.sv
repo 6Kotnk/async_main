@@ -8,6 +8,7 @@ localparam RAIL_NUM = 2;
 
 logic ack_i_tb;
 logic [WIDTH-1:0][RAIL_NUM-1:0] out_tb;
+logic [WIDTH-1:0] sync_tb;
 
 logic rst_tb = 0;
 logic start_tb = 0;
@@ -27,8 +28,30 @@ DUT
 //------------------------------------
 );
 
+sync#
+(
+  .WIDTH  (WIDTH),
+  .ENC    (ENC)
+)
+SYNC
+(
+//---------CTRL-----------------------
+  .rst                        (rst_tb),
+//---------LINK-IN--------------------
+  .ack_o                      (ack_i_tb),
+  .in                         (out_tb),
+//------------------------------------
+  .out                        (sync_tb)
+);
+
+/*
 link_monitor#(.ENC(ENC), .WIDTH(WIDTH))
 out_mon(.rst (rst_tb), .ack_o (ack_i_tb), .in(out_tb));
+*/
+
+dual_rail_monitor#(.ENC(ENC), .WIDTH(WIDTH))
+out_mon(.rst (rst_tb), .in(out_tb));
+
 
 initial
 begin
@@ -43,7 +66,8 @@ begin
   start_tb = 1;
 
   repeat(10)@(ack_i_tb);
-
+  
+  #100;
   $finish;  
 end
 
