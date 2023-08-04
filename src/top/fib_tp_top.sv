@@ -1,4 +1,5 @@
 `timescale 1ns / 1ps
+(* DONT_TOUCH = "yes" *)
 module fib_tp_top(
   input clk
 );
@@ -35,6 +36,7 @@ FIB
 (
 //---------CTRL-----------------------
   .rst                        (rst_top),
+  .clk                        (clk),
   .start                      (start_top),
 //---------LINK-OUT-------------------
   .ack_i                      (ack_i_top),

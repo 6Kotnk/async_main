@@ -3,7 +3,8 @@
 module fib_tp_tb();
 
 localparam ENC = "TP";
-localparam WIDTH = 32;
+localparam WIDTH = 8
+;
 localparam RAIL_NUM = 2;
 
 logic ack_i_tb;

@@ -28,7 +28,7 @@ rs_lat primitive_latch
 */
 
 
-
+/*
 LDCE #(
    .INIT(1'b0),            // Initial value of latch, 1'b0, 1'b1
    // Programmable Inversion Attributes: Specifies the use of the built-in programmable inversion
@@ -42,8 +42,10 @@ LDCE_inst (
    .G(in[1] ^ out),     // 1-bit input: Gate
    .GE(1)    // 1-bit input: Gate enable
 );
+*/
 
-/*
+
+
 logic out_pre;
 assign #37 out = out_pre;
 
@@ -59,7 +61,7 @@ LUT4_inst
     .I2 (out),
     .I3 (rst)
 );
-*/
+
 
 
 endmodule

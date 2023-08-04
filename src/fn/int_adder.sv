@@ -23,7 +23,9 @@ module int_adder#(
 
 logic en;
 logic out_done;
-assign en = out_done ^^ ack_i;
+logic in_done;
+logic done;
+assign en = done ^^ ack_i;
 
 logic [WIDTH:0][RAIL_NUM-1:0] carry_chain;
 assign carry_chain[0] = c_in;
@@ -62,7 +64,7 @@ cmpl_det#
   .ENC                        (ENC),
   .WIDTH                      (WIDTH+1)
 )
-reg_cmpl_det
+out_cmpl_det
 (
 //---------CTRL----------------
   .rst(rst),
@@ -72,12 +74,37 @@ reg_cmpl_det
 //-----------------------------
 );
 
+cmpl_det#
+(
+  .ENC                        (ENC),
+  .WIDTH                      (WIDTH+1)
+)
+in_cmpl_det
+(
+//---------CTRL----------------
+  .rst(rst),
+//-----------------------------
+  .in({a,b,c_in}),
+  .cmpl(in_done)
+//-----------------------------
+);
+
+C_2
+c_done
+(
+  .rst(rst),
+  
+  .in({out_done,in_done}),
+  .out(done)
+);
+
+
 C_2
 c_a
 (
   .rst(rst),
   
-  .in({out_done,ack_i}),
+  .in({done,ack_i}),
   .out(ack_o)
 );
 

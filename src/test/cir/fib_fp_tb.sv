@@ -3,7 +3,7 @@
 module fib_fp_tb();
 
 localparam ENC = "FP";
-localparam WIDTH = 32;
+localparam WIDTH = 8;
 localparam RAIL_NUM = 2;
 
 logic ack_i_tb;

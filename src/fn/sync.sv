@@ -47,7 +47,7 @@ generate
       always @(posedge ack_o or posedge rst)
       begin
         if(rst)
-          p = 0;
+          p <= 0;
         else
           p <= in[bit_idx][1] ^ n;
       end
@@ -55,7 +55,7 @@ generate
       always @(negedge ack_o or posedge rst)
       begin
         if(rst)
-          n = 0;
+          n <= 0;
         else
           n <= in[bit_idx][1] ^ p;
       end
@@ -79,18 +79,18 @@ generate
     begin
       logic p, n;
 
-      always @(posedge ack_o)
+      always @(posedge ack_o or posedge rst)
       begin
         if(rst)
-          p = 0;
+          p <= 0;
         else
           p <= (in[bit_idx][1] ^ in_sync[bit_idx]) ^ n;
       end
 
-      always @(negedge ack_o)
+      always @(negedge ack_o or posedge rst)
       begin
         if(rst)
-          n = 0;
+          n <= 0;
         else
           n <= (in[bit_idx][1] ^ in_sync[bit_idx]) ^ p;
       end
