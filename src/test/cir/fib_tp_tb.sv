@@ -45,11 +45,6 @@ SYNC
   .out                        (sync_tb)
 );
 
-/*
-link_monitor#(.ENC(ENC), .WIDTH(WIDTH))
-out_mon(.rst (rst_tb), .ack_o (ack_i_tb), .in(out_tb));
-*/
-
 dual_rail_monitor#(.ENC(ENC), .WIDTH(WIDTH))
 out_mon(.rst (rst_tb), .in(out_tb));
 
@@ -62,7 +57,7 @@ begin
 
   #2000;    
   rst_tb = 0;
-  #2000;
+  #15000;
 
   start_tb = 1;
 

@@ -21,6 +21,7 @@ module sync#(
 genvar bit_idx;
 
 logic [WIDTH-1:0] in_sync;
+logic ack_pre;
 
 cmpl_det#
 (
@@ -33,9 +34,17 @@ reg_cmpl_det
   .rst(rst),
 //-----------------------------
   .in(in),
-  .cmpl(ack_o)
+  .cmpl(ack_pre)
 //-----------------------------
 );
+
+always@(*)
+begin
+  if(rst)
+    ack_o = ack_pre;
+  else
+    #10000 ack_o = ack_pre;
+end
 
 generate
   for (bit_idx = 0; bit_idx < WIDTH ; bit_idx = bit_idx + 1)
