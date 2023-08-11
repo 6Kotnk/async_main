@@ -3,6 +3,7 @@
 module TH_XY#(
   parameter                       ENC = "FP",
   parameter                       CFG = "2_0_2",
+  parameter                       INIT = 0,
   localparam                      IN_NUM = 4
 )
 (
@@ -12,8 +13,12 @@ module TH_XY#(
   input                            en,
   input  [IN_NUM-1 : 0]            in,            
 //---------OUT------------------------
-  output                          out
+  output                          out,
 //------------------------------------
+  output                          dbg_en,
+  output  [IN_NUM-1 : 0]          dbg_in,
+  output                          dbg_out,
+  output  [IN_NUM-1 : 0]          dbg_in_p
 );
 
 localparam IN_NUM_ACTUAL = CFG[39:32] - 48;
@@ -31,10 +36,15 @@ generate
 
   if (ENC == "TP")
   begin
+
     genvar idx;
     for (idx = 0; idx < IN_NUM_ACTUAL; idx = idx + 1) 
     begin
-      P p
+      P #
+      (
+        .INIT(INIT)
+      )
+      p
       (
         .rst(rst),
         
@@ -64,4 +74,8 @@ TH_XY_core_inst
   .out  (out_pre)
 );
 
+assign dbg_en = en;
+assign dbg_in = in;
+assign dbg_out = out;
+assign dbg_in_p = in_p;
 endmodule

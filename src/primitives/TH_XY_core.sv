@@ -34,7 +34,7 @@ generate
 if (ENC == "TP") 
 begin
 
-  if (!FB_NEEDED)
+  if (0)
   begin
 
     always@(*)

@@ -3,8 +3,8 @@
 module fib_tp_tb();
 
 localparam ENC = "TP";
-localparam WIDTH = 8
-;
+localparam WIDTH = 8;
+
 localparam RAIL_NUM = 2;
 
 logic ack_i_tb;
@@ -45,11 +45,6 @@ SYNC
   .out                        (sync_tb)
 );
 
-/*
-link_monitor#(.ENC(ENC), .WIDTH(WIDTH))
-out_mon(.rst (rst_tb), .ack_o (ack_i_tb), .in(out_tb));
-*/
-
 dual_rail_monitor#(.ENC(ENC), .WIDTH(WIDTH))
 out_mon(.rst (rst_tb), .in(out_tb));
 
@@ -62,7 +57,7 @@ begin
 
   #2000;    
   rst_tb = 0;
-  #2000;
+  #15000;
 
   start_tb = 1;
 
@@ -71,5 +66,71 @@ begin
   #100;
   $finish;  
 end
+
+
+/*
+parameter INIT_A = 1;
+parameter INIT_B = 0;
+parameter INIT_CIN = 0;
+parameter WIDTH = 8;
+
+function calc_init (integer calc_bit_idx);
+
+  integer bit_idx;
+
+  logic [WIDTH - 1:0] init_s = 0;
+  logic [WIDTH:0] init_carry = 0;
+
+  init_carry[0] = INIT_CIN;
+
+  for (bit_idx = 0; bit_idx <= calc_bit_idx ; bit_idx = bit_idx + 1)
+  begin 
+    init_s[bit_idx] = INIT_A[bit_idx] ^^ INIT_B[bit_idx] ^^ init_carry[bit_idx];
+    init_carry[bit_idx + 1] = 
+    (INIT_A[bit_idx] && INIT_B[bit_idx]) ||
+    (INIT_B[bit_idx] && init_carry[bit_idx]) ||
+    (INIT_A[bit_idx] && init_carry[bit_idx]);
+  end
+
+  return {init_carry[calc_bit_idx + 1],init_s[calc_bit_idx]};
+endfunction
+
+initial
+begin
+
+
+  integer i;
+
+  for(i = 0; i < WIDTH; i++)
+  begin
+    integer test = calc_init(i);
+    $display("=====================");
+    $display(test[0]);
+    $display(test[1]);
+  end
+
+  $finish;  
+
+
+
+end
+
+
+  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 endmodule

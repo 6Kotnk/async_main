@@ -17,6 +17,8 @@ module fib_tp#(
 );
 
 
+`ifndef SIM
+
 /*
 vio_1
 (
@@ -31,10 +33,28 @@ vio_1
   
   .probe_in5(reg_b_ack),
   .probe_in6(reg_b_ack1),
-  .probe_in7(reg_b_add_ack_b)
+  .probe_in7(reg_b_add_ack_b),
+  
+  .probe_in8(add_ack),
+  .probe_in9(add_dat),
+  .probe_in10(add_r_ack),
+  .probe_in11(add_r_dat)
 
 );
 */
+
+/*
+vio_1
+(
+  .clk(clk),
+
+  .probe_in0(reg_a_dat),
+  .probe_in1(reg_b_dat_b),
+  .probe_in2(add_dat)
+
+);
+*/
+`endif
 
 localparam ENC = "TP";
 
@@ -72,13 +92,20 @@ logic reg_b_add_ack_b;
 logic reg_b_ack1;
 
 
-assign reg_b_ack1 = ack_i;
+assign reg_b_ack1 = ack_i && start;
 assign out = reg_b_dat[WIDTH-1:0];
 
 
 int_adder#
 (
   .WIDTH  (WIDTH),
+
+  .INIT_EN  (1),
+
+  .INIT_A   (1),
+  .INIT_B   (0),
+  .INIT_CIN (0),
+
   .ENC    (ENC)
 )
 fib_add
@@ -93,8 +120,9 @@ fib_add
 //---------LINK-OUT-------------------
   .ack_i                      (add_ack),
   .s                          (add_dat[WIDTH-1:0]),
-  .c_out                      (add_dat[WIDTH])
+  .c_out                      (add_dat[WIDTH]),
 //------------------------------------
+.clk(clk)
 );
 
 
@@ -167,7 +195,7 @@ barrier#
 )
 barrier
 (//---------CTRL-----------------------
-  .start                      (start),
+  .start                      (1),
 //---------LINK-IN--------------------
   .ack_o                      (reg_b_ack),
   .in                         (reg_b_dat),
