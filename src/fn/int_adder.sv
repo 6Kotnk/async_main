@@ -77,7 +77,7 @@ out_cmpl_det
 cmpl_det#
 (
   .ENC                        (ENC),
-  .WIDTH                      (WIDTH+1)
+  .WIDTH                      (2*WIDTH+1)
 )
 in_cmpl_det
 (
