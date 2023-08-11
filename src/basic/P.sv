@@ -1,9 +1,6 @@
 `timescale 1ns / 1ps
 
-module P#
-(
-  parameter         INIT = 0
-)
+module P
 (
 //---------CTRL-----------------------
   input              rst,
@@ -16,7 +13,7 @@ module P#
 //------------------------------------
 );
 
-logic state_r = INIT;
+reg state_r = 0;
 
 assign out = state_r ^ in;
 
@@ -24,7 +21,7 @@ always@(*)
 begin
   if(rst)
   begin
-    state_r = INIT ^ in;
+    state_r = 0;
   end
   else
   begin

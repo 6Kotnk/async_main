@@ -17,7 +17,7 @@ module MEM_CELL#(
 //------------------------------------
 );
 
-logic [RAIL_NUM-1 : 0] out_r = 0;
+reg [RAIL_NUM-1 : 0] out_r = INIT;
 
 assign #73 out = out_r;
 
