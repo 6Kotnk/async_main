@@ -2,7 +2,7 @@
 
 module int_adder_tb();
 
-localparam ENC = "FP";
+localparam ENC = "TP";
 localparam WIDTH = 32;
 localparam RAIL_NUM = 2;
 
@@ -85,33 +85,33 @@ begin
   #1000;
   
   fork
-    a_drv.drive(0);     #100;
-    b_drv.drive(0);     #100;
-    c_in_drv.drive(0);  #100;
+    a_drv.drive(0);     #10000;
+    b_drv.drive(0);     #10000;
+    c_in_drv.drive(0);  #10000;
   join
 
   fork
-    a_drv.drive(0);     #100;
-    b_drv.drive(0);     #100;
-    c_in_drv.drive(0);  #100;
+    a_drv.drive(0);     #10000;
+    b_drv.drive(0);     #10000;
+    c_in_drv.drive(0);  #10000;
   join
 
   fork
-    a_drv.drive(-10);   #100;
-    b_drv.drive(20);    #100;
-    c_in_drv.drive(1);  #100;
+    a_drv.drive(-10);   #10000;
+    b_drv.drive(20);    #10000;
+    c_in_drv.drive(1);  #10000;
   join
 
   fork
-    a_drv.drive(12);    #100;
-    b_drv.drive(15);    #100;
-    c_in_drv.drive(1);  #100;
+    a_drv.drive(12);    #10000;
+    b_drv.drive(15);    #10000;
+    c_in_drv.drive(1);  #10000;
   join
 
   fork
-    a_drv.drive(-1);    #100;
-    b_drv.drive(-1);    #100;
-    c_in_drv.drive(1);  #100;
+    a_drv.drive(-1);    #10000;
+    b_drv.drive(-1);    #10000;
+    c_in_drv.drive(1);  #10000;
   join
 
   #10000;

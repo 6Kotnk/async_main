@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module not#(
+module inv#(
   parameter                    ENC = "TP",
   localparam                   RAIL_NUM = 2
 )

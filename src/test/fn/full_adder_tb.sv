@@ -2,7 +2,7 @@
 
 module full_adder_tb();
 
-localparam ENC = "FP";
+localparam ENC = "TP";
 localparam RAIL_NUM = 2;
 
 logic [RAIL_NUM-1:0] a_tb;
@@ -24,12 +24,12 @@ begin
     en_tb = 1;
     #100;
     en_tb = 0;
-    #100;  
+    #100; 
   end
 end
 endtask
 
-full_adder#
+full_adder_tgl#
 (
   .ENC  (ENC)
 )
@@ -37,7 +37,6 @@ DUT
 (
 //---------CTRL-----------------------
   .rst                        (rst_tb),
-  .en                         (en_tb),
 //---------LINK-IN--------------------
   .a                          (a_tb),
   .b                          (b_tb),
@@ -76,27 +75,27 @@ begin
   #1000;
 
   fork
-    a_drv.drive(0);     #100;
-    b_drv.drive(0);     #100;
-    c_out_drv.drive(0); #100;
+    a_drv.drive(0);     #1000;
+    b_drv.drive(0);     #1000;
+    c_out_drv.drive(0); #1000;
   join
   pulse_en();
   fork
-    a_drv.drive(1);     #100;
-    b_drv.drive(0);     #100;
-    c_out_drv.drive(0); #100;
+    a_drv.drive(1);     #1000;
+    b_drv.drive(0);     #1000;
+    c_out_drv.drive(0); #1000;
   join
   pulse_en();
   fork
-    a_drv.drive(1);     #100;
-    b_drv.drive(1);     #100;
-    c_out_drv.drive(1); #100;
+    a_drv.drive(1);     #1000;
+    b_drv.drive(1);     #1000;
+    c_out_drv.drive(1); #1000;
   join
   pulse_en();
   fork
-    a_drv.drive(1);     #100;
-    b_drv.drive(0);     #100;
-    c_out_drv.drive(1); #100;
+    a_drv.drive(1);     #1000;
+    b_drv.drive(0);     #1000;
+    c_out_drv.drive(1); #1000;
   join
   pulse_en();
 

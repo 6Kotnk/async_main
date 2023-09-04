@@ -9,7 +9,6 @@ module fib_tp#(
 //---------CTRL-----------------------
   input                           rst,
   input                           clk,
-  input                         start,
 //---------LINK-OUT-------------------
   input                           ack_i,
   output[WIDTH-1:0][RAIL_NUM-1:0] out
@@ -86,13 +85,10 @@ logic reg_a_ack1;
 
 logic [WIDTH:0][RAIL_NUM-1:0]reg_b_dat;
 logic reg_b_ack;
-
-logic [WIDTH:0][RAIL_NUM-1:0]reg_b_dat_b;
-logic reg_b_add_ack_b;
 logic reg_b_ack1;
 
 
-assign reg_b_ack1 = ack_i && start;
+assign reg_b_ack1 = ack_i;
 assign out = reg_b_dat[WIDTH-1:0];
 
 
@@ -108,7 +104,7 @@ fib_add
 //---------LINK-IN--------------------
   .ack_o                      (add_in_ack),
   .a                          (reg_a_dat[WIDTH-1:0]),
-  .b                          (reg_b_dat_b[WIDTH-1:0]),
+  .b                          (reg_b_dat[WIDTH-1:0]),
   .c_in                       (add_c_in),
 //---------LINK-OUT-------------------
   .ack_i                      (add_ack),
@@ -181,20 +177,6 @@ regb
   .out                        (reg_b_dat)
 );
 
-barrier#
-(
-  .WIDTH      (WIDTH+1)
-)
-barrier
-(//---------CTRL-----------------------
-  .start                      (1),
-//---------LINK-IN--------------------
-  .ack_o                      (reg_b_ack),
-  .in                         (reg_b_dat),
-//------------------------------------
-  .ack_i                      (reg_b_add_ack_b),
-  .out                        (reg_b_dat_b)
-);
 
 C_2
 c_b
@@ -202,7 +184,7 @@ c_b
   .rst(rst),
   
   .in({reg_b_ack1,add_in_ack}),
-  .out(reg_b_add_ack_b)
+  .out(reg_b_ack)
 );
 
 endmodule
