@@ -8,52 +8,11 @@ module fib_tp#(
 (
 //---------CTRL-----------------------
   input                           rst,
-  input                           clk,
 //---------LINK-OUT-------------------
   input                           ack_i,
   output[WIDTH-1:0][RAIL_NUM-1:0] out
 //------------------------------------
 );
-
-
-`ifndef SIM
-
-/*
-vio_1
-(
-  .clk(clk),
-
-  .probe_in0(add_ack),
-  .probe_in1(add_in_ack),
-  .probe_in2(add_r_ack),
-  
-  .probe_in3(reg_a_ack),
-  .probe_in4(reg_a_ack1),
-  
-  .probe_in5(reg_b_ack),
-  .probe_in6(reg_b_ack1),
-  .probe_in7(reg_b_add_ack_b),
-  
-  .probe_in8(add_ack),
-  .probe_in9(add_dat),
-  .probe_in10(add_r_ack),
-  .probe_in11(add_r_dat)
-
-);
-*/
-
-/*
-vio_1
-(
-  .clk(clk),
-
-  .probe_in0(reg_a_dat),
-  .probe_in1(reg_b_dat_b),
-  .probe_in2(add_dat)
-
-);
-*/
-`endif
 
 localparam ENC = "TP";
 

@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 (* DONT_TOUCH = "yes" *)
-module fib_tp_top(
+module cnt_tp_top(
 /*
   input rst_top,
   input ack_i_top,  
@@ -47,7 +47,7 @@ vio_0
 );
 */
 
-fib_tp#
+cnt_tp#
 (
   .WIDTH      (WIDTH)
 )

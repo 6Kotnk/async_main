@@ -7,7 +7,7 @@ localparam WIDTH = 8;
 
 localparam RAIL_NUM = 2;
 
-logic ack_i_tb = 0;
+logic ack_i_tb;
 logic [WIDTH-1:0][RAIL_NUM-1:0] out_tb;
 logic [WIDTH-1:0] sync_tb;
 
@@ -38,7 +38,7 @@ SYNC
 //---------CTRL-----------------------
   .rst                        (rst_tb),
 //---------LINK-IN--------------------
-  .ack_o                      (),
+  .ack_o                      (ack_i_tb),
   .in                         (out_tb),
 //------------------------------------
   .out                        (sync_tb)
@@ -52,7 +52,7 @@ initial
 begin
 
   rst_tb = 1;
-  ack_i_tb = 0;
+  //ack_i_tb = 0;
   
   /*
   #1000;
@@ -69,8 +69,8 @@ begin
 
   repeat(10)
   begin
-    #2000;
-    ack_i_tb = !ack_i_tb;
+    #5000;
+    //ack_i_tb = !ack_i_tb;
   end
   
   

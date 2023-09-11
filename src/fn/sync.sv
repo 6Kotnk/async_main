@@ -43,7 +43,7 @@ begin
   if(rst)
     ack_o = ack_pre;
   else
-    #10000 ack_o = ack_pre;
+    #10 ack_o = ack_pre;
 end
 
 generate
@@ -75,8 +75,17 @@ generate
     end
     else if(ENC == "FP")
     begin
-      always @(posedge ack_o)
-        in_sync[bit_idx] <= in[bit_idx][1];
+      always @(posedge ack_o or posedge rst)
+      begin
+        if(rst)
+        begin
+          in_sync[bit_idx] <= 0;
+        end
+        else
+        begin
+          in_sync[bit_idx] <= in[bit_idx][1];
+        end
+      end
     end
   end
 

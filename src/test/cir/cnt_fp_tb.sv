@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module fib_fp_tb();
+module cnt_fp_tb();
 
 localparam ENC = "FP";
 localparam WIDTH = 8;
@@ -14,7 +14,7 @@ logic [WIDTH-1:0] sync_tb;
 logic rst_tb = 0;
 
 
-fib_fp#
+cnt_fp#
 (
   .WIDTH      (WIDTH)
 )

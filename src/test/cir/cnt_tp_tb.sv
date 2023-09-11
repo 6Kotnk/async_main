@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
-module fib_fp_tb();
+module cnt_tp_tb();
 
-localparam ENC = "FP";
+localparam ENC = "TP";
 localparam WIDTH = 8;
 
 localparam RAIL_NUM = 2;
@@ -14,7 +14,7 @@ logic [WIDTH-1:0] sync_tb;
 logic rst_tb = 0;
 
 
-fib_fp#
+cnt_tp#
 (
   .WIDTH      (WIDTH)
 )
@@ -69,7 +69,7 @@ begin
 
   repeat(10)
   begin
-    #10000;
+    #5000;
     //ack_i_tb = !ack_i_tb;
   end
   

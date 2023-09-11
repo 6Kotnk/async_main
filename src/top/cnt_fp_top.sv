@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 (* DONT_TOUCH = "yes" *)
-module fib_tp_top(
+module cnt_fp_top(
 /*
   input rst_top,
   input ack_i_top,  
@@ -17,7 +17,7 @@ module fib_tp_top(
 );
 
 
-localparam ENC = "TP";
+localparam ENC = "FP";
 localparam WIDTH = 8;
 localparam RAIL_NUM = 2;
 
@@ -47,7 +47,7 @@ vio_0
 );
 */
 
-fib_tp#
+cnt_fp#
 (
   .WIDTH      (WIDTH)
 )

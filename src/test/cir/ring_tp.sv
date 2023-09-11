@@ -1,30 +1,32 @@
 `timescale 1ns / 1ps
 
-module fib_fp_tb();
+module ring_tb();
 
-localparam ENC = "FP";
+localparam ENC = "TP";
 localparam WIDTH = 8;
+localparam LEN = 127;
 
 localparam RAIL_NUM = 2;
 
-logic ack_i_tb;
+logic ack_tb;
 logic [WIDTH-1:0][RAIL_NUM-1:0] out_tb;
 logic [WIDTH-1:0] sync_tb;
 
 logic rst_tb = 0;
 
 
-fib_fp#
+ring#
 (
-  .WIDTH      (WIDTH)
+  .WIDTH      (WIDTH),
+  .LEN        (LEN)
 )
 DUT
 (
 //---------CTRL-----------------------
   .rst                        (rst_tb),
 //---------LINK-OUT-------------------
-  .ack_i                      (ack_i_tb),
-  .out                        (out_tb)
+  .ack                        (ack_tb),
+  .data                       (out_tb)
 //------------------------------------
 );
 
@@ -38,7 +40,7 @@ SYNC
 //---------CTRL-----------------------
   .rst                        (rst_tb),
 //---------LINK-IN--------------------
-  .ack_o                      (ack_i_tb),
+  .ack_o                      (),
   .in                         (out_tb),
 //------------------------------------
   .out                        (sync_tb)
