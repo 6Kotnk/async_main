@@ -37,7 +37,7 @@ generate
   for (bit_idx = 0; bit_idx < WIDTH ; bit_idx = bit_idx + 1)
   begin 
 
-    full_adder_tgl#
+    full_adder#
     //full_adder#
     (
       .ENC  (ENC)

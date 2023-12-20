@@ -19,7 +19,7 @@ module ring_top(
 
 localparam ENC = "TP";
 localparam WIDTH = 8;
-localparam LEN = 7;
+localparam LEN = 128;
 localparam RAIL_NUM = 2;
 
 logic ack_o_sync;

@@ -63,5 +63,21 @@ LUT4_inst
 );
 
 
+/*
+always@(*)
+begin
+  if(rst)
+  begin
+    out_pre = &in;
+  end
+  else
+  begin
+    if(in[0] == in[1])
+    begin
+      out_pre = in[0];
+    end
+  end
+end
+*/
 
 endmodule

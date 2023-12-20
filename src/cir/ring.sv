@@ -14,7 +14,7 @@ module ring#(
   output [WIDTH-1:0][RAIL_NUM-1:0]data
 //------------------------------------
 );
-
+/*
 (* DONT_TOUCH = "yes" *)
 logic chain[LEN-1:0];
 
@@ -32,12 +32,12 @@ generate;
     assign #10 chain[idx+1] = !chain[idx];
   end
 endgenerate
+*/
 
 
 
 
-/*
-localparam DENSITY = 128;
+localparam DENSITY = 32;
 localparam ENC = "TP";
 
 logic [WIDTH-1:0][RAIL_NUM-1:0]conn_data[LEN:0];
@@ -97,6 +97,6 @@ generate;
 
   end
 endgenerate
-*/
+
 
 endmodule
